@@ -360,11 +360,6 @@ export default function InferenceStudio({
     <div className="studio-container">
       {/* Hero Header */}
       <div className="hero-section">
-        <div className="hero-pill-badge">
-          <span className="status-indicator-dot"></span>
-          <span>Next-Gen Canine Computer Vision</span>
-        </div>
-
         <h1 className="hero-title">
           High-Resolution Image <br />
           <span className="gradient-text">Neural Network Architecture</span>

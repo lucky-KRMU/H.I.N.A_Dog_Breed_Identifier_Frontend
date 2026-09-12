@@ -21,9 +21,9 @@ export default function Benchmarks() {
             borderRadius: '9999px',
             fontSize: '0.8rem',
             fontWeight: 600,
-            background: 'rgba(99, 102, 241, 0.12)',
+            background: 'rgba(245, 158, 11, 0.12)',
             color: 'var(--accent-primary)',
-            border: '1px solid rgba(99, 102, 241, 0.25)',
+            border: '1px solid rgba(245, 158, 11, 0.25)',
             marginBottom: '16px',
           }}
         >

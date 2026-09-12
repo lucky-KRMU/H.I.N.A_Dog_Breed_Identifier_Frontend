@@ -38,9 +38,9 @@ export default function BreedCodex() {
             borderRadius: '9999px',
             fontSize: '0.8rem',
             fontWeight: 600,
-            background: 'rgba(99, 102, 241, 0.12)',
+            background: 'rgba(245, 158, 11, 0.12)',
             color: 'var(--accent-primary)',
-            border: '1px solid rgba(99, 102, 241, 0.25)',
+            border: '1px solid rgba(245, 158, 11, 0.25)',
             marginBottom: '16px',
           }}
         >
@@ -134,7 +134,7 @@ export default function BreedCodex() {
                   cursor: 'pointer',
                   fontFamily: 'inherit',
                   transition: 'all 0.2s ease',
-                  boxShadow: isActive ? '0 2px 10px rgba(99, 102, 241, 0.3)' : 'none',
+                  boxShadow: isActive ? '0 2px 10px rgba(245, 158, 11, 0.3)' : 'none',
                 }}
               >
                 {group}
@@ -185,7 +185,7 @@ export default function BreedCodex() {
                     fontSize: '0.72rem',
                     fontWeight: 600,
                     color: 'var(--accent-primary)',
-                    background: 'rgba(99, 102, 241, 0.12)',
+                    background: 'rgba(245, 158, 11, 0.12)',
                     padding: '2px 8px',
                     borderRadius: '9999px',
                   }}
