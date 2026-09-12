@@ -99,8 +99,9 @@
 .hina-logo-text {
   display: inline-flex;
   align-items: baseline;
+  font-family: var(--font-display);
   font-weight: 800;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
   font-size: 1.2rem;
   color: var(--text-primary);
   white-space: nowrap;
