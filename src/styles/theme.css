@@ -1,10 +1,10 @@
 /* ==========================================================================
    HINA Design System — Theme Variables & Utilities
-   Golden, Orange & Emerald Green Cyber-Solar Aesthetic (No Blue in Dark Theme)
+   Golden & Emerald Green Cyber-Solar Aesthetic (No Blue or Orange)
    ========================================================================== */
 
 :root {
-  /* Color Palette - Dark Mode (Golden, Orange & Green Gradient) */
+  /* Color Palette - Dark Mode (Golden & Emerald Green Gradient) */
   --bg-base: #09090C;
   --bg-surface: #121217;
   --bg-bubble: rgba(18, 17, 23, 0.82);
@@ -21,22 +21,20 @@
   --text-muted: #71717A;
   --text-inverse: #09090C;
 
-  /* Golden, Orange & Green Color Trio */
+  /* Golden & Emerald Green Color Duo */
   --color-gold: #F59E0B;
-  --color-orange: #F97316;
   --color-green: #10B981;
 
   --accent-primary: #F59E0B;
   --accent-primary-hover: #D97706;
   --accent-secondary: #10B981;
-  --accent-tertiary: #F97316;
+  --accent-tertiary: #059669;
 
-  /* Golden -> Orange -> Emerald Green Gradient */
-  --accent-gradient: linear-gradient(135deg, #F59E0B 0%, #F97316 48%, #10B981 100%);
+  /* Golden -> Emerald Green Gradient */
+  --accent-gradient: linear-gradient(135deg, #F59E0B 0%, #10B981 100%);
   --accent-glow: 0 0 32px rgba(245, 158, 11, 0.4);
   --emerald-accent: #10B981;
   --amber-accent: #F59E0B;
-  --orange-accent: #F97316;
   --rose-accent: #F43F5E;
 
   /* Dynamic Island */
@@ -51,7 +49,7 @@
   --bubble-shadow: 0 35px 90px -20px rgba(0, 0, 0, 0.8),
                    0 0 0 1px rgba(255, 255, 255, 0.08) inset,
                    0 1px 0 rgba(245, 158, 11, 0.3) inset;
-  --bubble-ambient: radial-gradient(100% 100% at 50% 0%, rgba(245, 158, 11, 0.12) 0%, rgba(249, 115, 22, 0.06) 45%, rgba(16, 185, 129, 0.04) 80%, transparent 100%);
+  --bubble-ambient: radial-gradient(100% 100% at 50% 0%, rgba(245, 158, 11, 0.12) 0%, rgba(16, 185, 129, 0.05) 60%, transparent 100%);
 
   /* Shadows */
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.35);
@@ -70,7 +68,7 @@
   --font-mono:     'JetBrains Mono', ui-monospace, Menlo, Monaco, Consolas, monospace;
 }
 
-/* Light Theme overrides (Harmonious gold-amber, coral-orange and green) */
+/* Light Theme overrides (Harmonious gold-amber and emerald green) */
 [data-theme="light"] {
   --bg-base: #F9FAFB;
   --bg-surface: #F3F4F6;
@@ -91,13 +89,12 @@
   --accent-primary: #D97706;
   --accent-primary-hover: #B45309;
   --accent-secondary: #059669;
-  --accent-tertiary: #EA580C;
+  --accent-tertiary: #059669;
 
-  --accent-gradient: linear-gradient(135deg, #D97706 0%, #EA580C 50%, #059669 100%);
+  --accent-gradient: linear-gradient(135deg, #D97706 0%, #059669 100%);
   --accent-glow: 0 0 25px rgba(217, 119, 6, 0.25);
   --emerald-accent: #059669;
   --amber-accent: #D97706;
-  --orange-accent: #EA580C;
   --rose-accent: #E11D48;
 
   /* Dynamic Island in light mode */
@@ -112,7 +109,7 @@
   --bubble-shadow: 0 25px 65px -15px rgba(0, 0, 0, 0.08),
                    0 0 0 1px rgba(255, 255, 255, 0.8) inset,
                    0 1px 0 rgba(255, 255, 255, 1) inset;
-  --bubble-ambient: radial-gradient(100% 100% at 50% 0%, rgba(217, 119, 6, 0.08) 0%, rgba(234, 88, 12, 0.04) 40%, rgba(5, 150, 105, 0.03) 80%, transparent 100%);
+  --bubble-ambient: radial-gradient(100% 100% at 50% 0%, rgba(217, 119, 6, 0.08) 0%, rgba(5, 150, 105, 0.04) 60%, transparent 100%);
 
   --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.04);
   --shadow-md: 0 10px 25px -4px rgba(0, 0, 0, 0.07);
@@ -164,7 +161,7 @@ code, pre, .font-mono {
   font-family: var(--font-mono);
 }
 
-/* Ambient canvas background glow bubbles: Golden Amber, Warm Orange, Emerald Green */
+/* Ambient canvas background glow bubbles: Golden Amber & Emerald Green */
 .canvas-bg {
   position: fixed;
   inset: 0;
@@ -192,7 +189,7 @@ code, pre, .font-mono {
   width: 52vw;
   height: 50vh;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(249, 115, 22, 0.16) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, transparent 70%);
   filter: blur(100px);
   animation: floatGlow 18s ease-in-out infinite alternate-reverse;
 }
@@ -213,7 +210,7 @@ code, pre, .font-mono {
   background: radial-gradient(circle, rgba(217, 119, 6, 0.09) 0%, transparent 70%);
 }
 [data-theme="light"] .canvas-glow-2 {
-  background: radial-gradient(circle, rgba(234, 88, 12, 0.07) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(5, 150, 105, 0.07) 0%, transparent 70%);
 }
 [data-theme="light"] .canvas-glow-3 {
   background: radial-gradient(circle, rgba(5, 150, 105, 0.08) 0%, transparent 70%);

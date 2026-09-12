@@ -24,7 +24,7 @@ const PIPELINE_LAYERS = [
     outputShape: '[Batch, 224, 224, 3]',
     params: 0,
     type: 'Augmentation Preprocessing',
-    color: '#F97316',
+    color: '#EAB308',
     description: 'Applies real-time invariant transformations to emulate varied camera orientations, lighting conditions, and dog postures during training and evaluation.',
     details: [
       { key: 'Random Flip', val: 'Horizontal mode (p=0.5)' },
@@ -40,7 +40,7 @@ const PIPELINE_LAYERS = [
     outputShape: '[Batch, 7, 7, 2048]',
     params: 23587712,
     type: 'Deep Residual Backbone',
-    color: '#FB923C',
+    color: '#84CC16',
     description: '50-layer deep convolutional backbone utilizing bottleneck building blocks with identity shortcut connections [y = F(x, {Wi}) + x]. Extracts multi-scale hierarchical canine representations from low-level edges (snout contours, fur textures) to high-level semantic breed anatomy (ear shape, skull proportions).',
     details: [
       { key: 'Total Parameters', val: '23,587,712 parameters' },
@@ -56,7 +56,7 @@ const PIPELINE_LAYERS = [
     outputShape: '[Batch, 2048]',
     params: 0,
     type: 'Dimensionality Reduction',
-    color: '#84CC16',
+    color: '#22C55E',
     description: 'Compresses the 7×7 spatial feature maps into a single 2048-dimensional dense latent vector by calculating the average over each spatial channel, enforcing spatial translation invariance.',
     details: [
       { key: 'Spatial Ingestion', val: '7 × 7 feature map' },
