@@ -1,122 +1,148 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import React, { useState, useEffect } from 'react';
+import './styles/theme.css';
+import './App.css';
+import DynamicNavbar from './components/DynamicNavbar';
+import InferenceStudio from './components/InferenceStudio';
+import ArchitectureExplorer from './components/ArchitectureExplorer';
+import BreedCodex from './components/BreedCodex';
+import Benchmarks from './components/Benchmarks';
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  // Theme state: dark / light
+  const [theme, setTheme] = useState(() => {
+    const saved = localStorage.getItem('hina-theme');
+    if (saved) return saved;
+    return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+  });
+
+  // Active view tab: 'studio' | 'architecture' | 'codex' | 'benchmarks'
+  const [activeTab, setActiveTab] = useState('studio');
+
+  // Dynamic Island states
+  const [islandState, setIslandState] = useState('idle'); // 'idle' | 'processing' | 'result'
+  const [processingProgress, setProcessingProgress] = useState(0);
+  const [processingThumb, setProcessingThumb] = useState(null);
+  const [topPrediction, setTopPrediction] = useState(null);
+
+  // Backend connection status
+  const [apiConnected, setApiConnected] = useState(false);
+
+  // Apply theme to html root
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('hina-theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
+  };
+
+  // Check backend health
+  useEffect(() => {
+    const checkApi = async () => {
+      try {
+        const res = await fetch('http://localhost:8000/api/health', { method: 'GET' });
+        if (res.ok) {
+          setApiConnected(true);
+        } else {
+          setApiConnected(false);
+        }
+      } catch {
+        setApiConnected(false);
+      }
+    };
+    checkApi();
+    const timer = setInterval(checkApi, 10000);
+    return () => clearInterval(timer);
+  }, []);
+
+  // Inference callbacks
+  const handleInferenceStart = (thumbUrl) => {
+    setProcessingThumb(thumbUrl);
+    setProcessingProgress(15);
+    setIslandState('processing');
+  };
+
+  const handleInferenceProgress = (progress) => {
+    setProcessingProgress(progress);
+  };
+
+  const handleInferenceComplete = (prediction) => {
+    setProcessingProgress(100);
+    setTopPrediction(prediction);
+    setTimeout(() => {
+      setIslandState('result');
+    }, 300);
+  };
+
+  const handleResetInference = () => {
+    setIslandState('idle');
+    setTopPrediction(null);
+    setProcessingProgress(0);
+    setProcessingThumb(null);
+  };
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <div className="app-shell">
+      {/* Dynamic ambient canvas background blur */}
+      <div className="canvas-bg">
+        <div className="canvas-glow-1"></div>
+        <div className="canvas-glow-2"></div>
+      </div>
 
-      <div className="ticks"></div>
+      {/* Apple Dynamic Island Inspired Sticky Navbar */}
+      <DynamicNavbar
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        theme={theme}
+        toggleTheme={toggleTheme}
+        islandState={islandState}
+        processingProgress={processingProgress}
+        processingThumb={processingThumb}
+        topPrediction={topPrediction}
+        onResetInference={handleResetInference}
+        apiConnected={apiConnected}
+      />
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+      {/* Main Content Workspace */}
+      <main className="main-content">
+        {activeTab === 'studio' && (
+          <InferenceStudio
+            onInferenceStart={handleInferenceStart}
+            onInferenceProgress={handleInferenceProgress}
+            onInferenceComplete={handleInferenceComplete}
+            apiConnected={apiConnected}
+            lastInferenceResult={topPrediction}
+          />
+        )}
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+        {activeTab === 'architecture' && <ArchitectureExplorer />}
+
+        {activeTab === 'codex' && <BreedCodex />}
+
+        {activeTab === 'benchmarks' && <Benchmarks />}
+      </main>
+
+      {/* Sleek App Footer */}
+      <footer className="app-footer">
+        <div className="footer-container">
+          <div className="footer-left">
+            <div className="footer-brand">
+              <span className="gradient-text" style={{ fontWeight: 800 }}>HINA</span>
+              <span style={{ color: 'var(--text-muted)' }}> — HighRes Image Network Architecture</span>
+            </div>
+            <div className="footer-note">
+              Deep canine vision platform powered by ResNet-50 feature extraction & Stanford 120 Dogs dataset.
+            </div>
+          </div>
+
+          <div className="footer-right">
+            <div className="footer-pill font-mono">ResNet-50 v1.4</div>
+            <div className="footer-pill font-mono">224×224 RGB</div>
+            <div className="footer-pill font-mono">120 Classes</div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
 }
-
-export default App

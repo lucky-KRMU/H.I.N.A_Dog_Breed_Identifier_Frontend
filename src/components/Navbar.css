@@ -1,0 +1,480 @@
+/* ==========================================================================
+   Dynamic Island Navbar & Expanding "HINA" Animation Styles
+   ========================================================================== */
+
+.navbar-wrapper {
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 16px 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none; /* Let background clicks pass through empty spaces */
+}
+
+.navbar-container {
+  width: 100%;
+  max-width: 1320px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  pointer-events: auto;
+}
+
+/* --------------------------------------------------------------------------
+   Left Brand: HINA with Seamless Expanding Fullform Animation
+   -------------------------------------------------------------------------- */
+.brand-wrapper {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  text-decoration: none;
+  padding: 8px 14px;
+  border-radius: 9999px;
+  background: var(--island-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-sm);
+  transition: all 0.4s var(--spring-smooth);
+}
+
+.brand-wrapper:hover,
+.brand-wrapper.is-pinned {
+  border-color: var(--border-active);
+  box-shadow: var(--accent-glow), var(--shadow-md);
+  background: var(--bg-card-elevated);
+}
+
+.brand-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: var(--accent-gradient);
+  color: #FFFFFF;
+  margin-right: 10px;
+  box-shadow: 0 2px 10px rgba(99, 102, 241, 0.4);
+  flex-shrink: 0;
+  transition: transform 0.4s var(--spring-snappy);
+}
+
+.brand-wrapper:hover .brand-icon {
+  transform: rotate(45deg) scale(1.08);
+}
+
+.hina-logo-text {
+  display: inline-flex;
+  align-items: baseline;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  font-size: 1.05rem;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+
+/* Individual letter container for H-I-N-A */
+.hina-unit {
+  display: inline-flex;
+  align-items: baseline;
+}
+
+.hina-lead {
+  font-weight: 800;
+  color: var(--text-primary);
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.brand-wrapper:hover .hina-lead,
+.brand-wrapper.is-pinned .hina-lead {
+  color: var(--accent-primary);
+}
+
+/* Suffix that gracefully expands */
+.hina-suffix {
+  display: inline-block;
+  max-width: 0;
+  opacity: 0;
+  overflow: hidden;
+  font-weight: 500;
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  letter-spacing: normal;
+  transform: translateX(-6px);
+  transition: max-width 0.45s var(--spring-smooth), 
+              opacity 0.35s ease, 
+              transform 0.45s var(--spring-smooth),
+              margin 0.4s var(--spring-smooth);
+}
+
+/* Spacing between words in expanded state */
+.hina-unit:not(:last-child) .hina-suffix {
+  margin-right: 0;
+}
+
+/* Expand on hover or when pinned */
+.brand-wrapper:hover .hina-suffix,
+.brand-wrapper.is-pinned .hina-suffix {
+  max-width: 140px;
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.brand-wrapper:hover .hina-unit:not(:last-child) .hina-suffix,
+.brand-wrapper.is-pinned .hina-unit:not(:last-child) .hina-suffix {
+  margin-right: 5px;
+}
+
+/* Sub-label badge */
+.hina-badge {
+  margin-left: 8px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  background: rgba(99, 102, 241, 0.15);
+  color: var(--accent-primary);
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  transition: all 0.3s ease;
+}
+
+/* --------------------------------------------------------------------------
+   Center: Apple Dynamic Island Floating Stadium Pill
+   -------------------------------------------------------------------------- */
+.dynamic-island {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 14px;
+  min-height: 44px;
+  border-radius: 9999px;
+  background: var(--island-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--island-border);
+  box-shadow: var(--island-shadow), var(--island-glow);
+  transition: all 0.5s var(--spring-smooth);
+  overflow: hidden;
+  user-select: none;
+}
+
+/* Dynamic Island States */
+.dynamic-island.state-idle {
+  min-width: 380px;
+}
+
+.dynamic-island.state-processing {
+  min-width: 460px;
+  border-color: var(--accent-primary);
+  box-shadow: var(--island-shadow), 0 0 35px rgba(99, 102, 241, 0.4);
+  background: var(--bg-card-elevated);
+}
+
+.dynamic-island.state-result {
+  min-width: 440px;
+  border-color: var(--emerald-accent);
+  box-shadow: var(--island-shadow), 0 0 35px rgba(16, 185, 129, 0.3);
+}
+
+/* Idle Content */
+.island-idle-content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.island-status-pill {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  padding: 3px 8px;
+  background: var(--border-subtle);
+  border-radius: 9999px;
+}
+
+.status-indicator-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: var(--emerald-accent);
+  box-shadow: 0 0 8px var(--emerald-accent);
+  animation: pulseDot 2s infinite ease-in-out;
+}
+
+@keyframes pulseDot {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.3); opacity: 0.6; }
+}
+
+/* Island Nav Tab Switcher */
+.island-nav-tabs {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.island-tab-btn {
+  background: transparent;
+  border: none;
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  padding: 5px 10px;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.island-tab-btn:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+[data-theme="light"] .island-tab-btn:hover {
+  background: rgba(15, 23, 42, 0.05);
+}
+
+.island-tab-btn.is-active {
+  color: var(--text-primary);
+  font-weight: 600;
+  background: rgba(99, 102, 241, 0.18);
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.2);
+}
+
+/* Processing State */
+.island-processing-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.island-mini-thumbnail {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--accent-primary);
+  box-shadow: 0 0 10px rgba(99, 102, 241, 0.4);
+}
+
+.island-processing-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.island-proc-title {
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Animated Neural Audio / Waveform ripples */
+.neural-wave {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  height: 14px;
+}
+
+.wave-bar {
+  width: 3px;
+  background: var(--accent-gradient);
+  border-radius: 2px;
+  animation: wavePulse 0.9s ease-in-out infinite alternate;
+}
+
+.wave-bar:nth-child(1) { height: 6px; animation-delay: 0.0s; }
+.wave-bar:nth-child(2) { height: 14px; animation-delay: 0.15s; }
+.wave-bar:nth-child(3) { height: 10px; animation-delay: 0.3s; }
+.wave-bar:nth-child(4) { height: 15px; animation-delay: 0.45s; }
+.wave-bar:nth-child(5) { height: 8px; animation-delay: 0.6s; }
+
+@keyframes wavePulse {
+  0% { transform: scaleY(0.4); opacity: 0.5; }
+  100% { transform: scaleY(1.2); opacity: 1; }
+}
+
+.island-proc-bar {
+  width: 100%;
+  height: 4px;
+  background: var(--border-subtle);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 4px;
+}
+
+.island-proc-fill {
+  height: 100%;
+  background: var(--accent-gradient);
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+/* Result State */
+.island-result-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 12px;
+}
+
+.island-breed-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.breed-icon-circle {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(16, 185, 129, 0.15);
+  color: var(--emerald-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.island-breed-name {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.island-conf-pill {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--emerald-accent);
+  background: rgba(16, 185, 129, 0.12);
+  padding: 2px 8px;
+  border-radius: 9999px;
+  border: 1px solid rgba(16, 185, 129, 0.25);
+}
+
+.island-reset-btn {
+  background: var(--border-subtle);
+  border: none;
+  color: var(--text-secondary);
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 4px 9px;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.island-reset-btn:hover {
+  background: var(--rose-accent);
+  color: #FFFFFF;
+}
+
+/* --------------------------------------------------------------------------
+   Right: Controls (Backend Status & Dark/Light Mode Switcher)
+   -------------------------------------------------------------------------- */
+.nav-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.api-status-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 9999px;
+  background: var(--island-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  box-shadow: var(--shadow-sm);
+  transition: all 0.3s ease;
+}
+
+.api-status-pill.is-online {
+  color: var(--emerald-accent);
+}
+
+.api-status-pill.is-standalone {
+  color: var(--amber-accent);
+}
+
+/* Theme Toggle Button */
+.theme-toggle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--island-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.3s var(--spring-snappy);
+}
+
+.theme-toggle-btn:hover {
+  border-color: var(--border-active);
+  transform: rotate(20deg) scale(1.05);
+  box-shadow: var(--shadow-md), var(--accent-glow);
+}
+
+/* Responsive adjustments */
+@media (max-width: 960px) {
+  .dynamic-island.state-idle {
+    min-width: auto;
+  }
+  .dynamic-island.state-processing,
+  .dynamic-island.state-result {
+    min-width: 300px;
+  }
+  .api-status-pill span {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar-container {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .dynamic-island {
+    order: 3;
+    width: 100%;
+  }
+}

@@ -1,16 +1,34 @@
-# React + Vite
+# HINA — HighRes Image Network Architecture (Frontend)
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+HINA is a state-of-the-art neural platform for canine computer vision and high-resolution image analysis trained on the Stanford Dogs Dataset (120 breeds) powered by a ResNet-50 deep feature extractor.
 
-Currently, two official plugins are available:
+## Features
+- **Apple Dynamic Island-Inspired Floating Navbar**:
+  - Live status indicator (ResNet-50 224px Engine)
+  - Interactive morphing states (Idle, Processing with animated neural waveforms, and Top Match Badge)
+  - **HINA** logo on the left with seamless hover/tap typography expansion into **HighRes Image Network Architecture**
+  - Instant dark and light theme toggle with persistent storage
+- **High-Resolution Inference Studio**:
+  - Drag-and-drop image upload with clipboard paste support
+  - 1-click curated canine presets (Siberian Husky, Golden Retriever, French Bulldog, Samoyed, German Shepherd, Corgi, Rottweiler, Border Collie)
+  - High-res image diagnostics (resolution, aspect ratio, file size, sharpness score, 224×224 crop viewfinder)
+  - Top-5 probability distribution bar charts
+  - Class Activation Map (CAM) neural attention heatmap toggle
+- **Neural Architecture Explorer**:
+  - Step-by-step breakdown of `model_fe_da.keras` (InputLayer, DataAugmentation, ResNet-50 backbone, GlobalAveragePooling2D, Dense Softmax)
+- **Canine Codex**:
+  - Searchable and group-filterable directory of all 120 Stanford dog breeds
+- **Performance Benchmarks & API Telemetry**:
+  - Latency breakdown and cURL reference for the REST API
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Development
+```bash
+# Start frontend development server
+npm run dev
 
-## React Compiler
+# Build for production
+npm run build
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+# Run linter
+npm run lint
+```
