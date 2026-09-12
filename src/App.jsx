@@ -179,6 +179,7 @@ export default function App() {
                 <li>Params: 23,587,712</li>
                 <li>Input: 224 × 224 × 3 RGB</li>
                 <li>Classes: 120 Stanford Breeds</li>
+                <li>Accuracy: 85% (Test &amp; Val)</li>
                 <li>Pooling: GlobalAveragePooling2D</li>
               </ul>
             </div>
@@ -211,7 +212,7 @@ export default function App() {
 
           {/* Bottom Bar */}
           <div className="footer-bottom-bar font-mono">
-            <div>© {new Date().getFullYear()} HINA (HighRes Image Network Architecture). All rights reserved.</div>
+            <div>© {new Date().getFullYear()} HINA — HighRes Image Network Architecture. Built by <strong>Lucky Pawar</strong>. All rights reserved.</div>
             <div>Trained on Stanford Dogs Dataset & ImageNet-1k</div>
           </div>
         </div>

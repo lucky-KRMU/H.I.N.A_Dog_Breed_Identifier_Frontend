@@ -88,6 +88,39 @@ export default function Benchmarks() {
         </div>
       </div>
 
+      {/* Model Performance Metrics Panel */}
+      <div className="glass-panel" style={{ padding: '28px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+        <div style={{ fontSize: '1.2rem', fontWeight: 700, color: 'var(--text-primary)' }}>
+          Model Performance Metrics
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px' }}>
+          {[
+            { label: 'Top-1 Accuracy', value: '85.0%', color: 'var(--emerald-accent)' },
+            { label: 'Validation Accuracy', value: '85.0%', color: 'var(--emerald-accent)' },
+            { label: 'Training Dataset', value: 'Stanford Dogs 120', color: 'var(--accent-primary)' },
+            { label: 'Backbone', value: 'ResNet-50 Fine-Tuned', color: 'var(--accent-primary)' },
+            { label: 'Fine-Tuned Layers', value: 'Last Block + Dense Head', color: 'var(--text-primary)' },
+            { label: 'Inference Technique', value: 'TTA 2-View Ensemble', color: 'var(--text-primary)' },
+          ].map((stat) => (
+            <div
+              key={stat.label}
+              style={{
+                padding: '16px',
+                borderRadius: '12px',
+                background: 'var(--bg-card)',
+                border: '1px solid var(--border-subtle)',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '6px',
+              }}
+            >
+              <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 500 }}>{stat.label}</div>
+              <div className="font-mono" style={{ fontSize: '1.05rem', fontWeight: 700, color: stat.color }}>{stat.value}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
       {/* API Reference Panel */}
       <div className="glass-panel" style={{ padding: '28px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
         <div style={{ fontSize: '1.2rem', fontWeight: 700, color: 'var(--text-primary)' }}>

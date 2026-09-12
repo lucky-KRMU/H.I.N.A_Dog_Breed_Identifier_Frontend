@@ -68,6 +68,7 @@ export default function InferenceStudio({
   const [showHeatmap, setShowHeatmap] = useState(false);
   const [copiedNotification, setCopiedNotification] = useState(false);
   const fileInputRef = useRef(null);
+  const objectUrlRef = useRef(null);
 
   // Diagnostic metrics
   const [diagnostics, setDiagnostics] = useState({
@@ -236,7 +237,9 @@ export default function InferenceStudio({
   const processCustomFile = useCallback(
     (file) => {
       setSelectedSample(null);
+      if (objectUrlRef.current) { URL.revokeObjectURL(objectUrlRef.current); }
       const objectUrl = URL.createObjectURL(file);
+      objectUrlRef.current = objectUrl;
       setCurrentImageSrc(objectUrl);
 
       const img = new Image();
@@ -317,6 +320,8 @@ export default function InferenceStudio({
     if (file) {
       processCustomFile(file);
     }
+    // Reset value so selecting the same file again triggers onChange
+    e.target.value = '';
   };
 
   const handleDragOver = (e) => {
@@ -330,11 +335,21 @@ export default function InferenceStudio({
 
   const handleDrop = (e) => {
     e.preventDefault();
+    e.stopPropagation();
     setIsDragOver(false);
     if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
       processCustomFile(e.dataTransfer.files[0]);
     }
   };
+
+  // Revoke object URL on unmount to prevent memory leaks
+  useEffect(() => {
+    return () => {
+      if (objectUrlRef.current) {
+        URL.revokeObjectURL(objectUrlRef.current);
+      }
+    };
+  }, []);
 
   const handleCopyReport = () => {
     if (!predictionData) return;
@@ -366,7 +381,7 @@ export default function InferenceStudio({
         </h1>
 
         <p className="hero-subtitle">
-          Engineered with a 224x224 RGB deep feature extraction backbone (ResNet-50) and data augmentation pipeline to classify and inspect 120 Stanford dog breeds with sub-50ms inference latency.
+          Engineered with a fine-tuned ResNet-50 backbone (224×224 centre-crop, BGR preprocessing, Test-Time Augmentation) achieving 85% accuracy on 120 Stanford dog breed classes. Sub-50ms inference latency.
         </p>
 
         <div className="hero-specs-row">
@@ -601,7 +616,7 @@ export default function InferenceStudio({
                       <div
                         className="dist-fill"
                         style={{
-                          width: `${item.confidence}%`,
+                          width: `${Math.min(100, item.confidence)}%`,
                           opacity: idx === 0 ? 1 : 0.65 - idx * 0.1,
                         }}
                       ></div>

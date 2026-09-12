@@ -45,7 +45,7 @@ const PIPELINE_LAYERS = [
     details: [
       { key: 'Total Parameters', val: '23,587,712 parameters' },
       { key: 'Residual Blocks', val: '16 Bottleneck Residual Units' },
-      { key: 'Skip Connections', val: 'Identity shortcuts F(x) + x' },
+      { key: 'Fine-Tuning', val: 'Last block trained with head' },
       { key: 'Pretraining', val: 'ImageNet-1k transfer weights' }
     ]
   },
@@ -73,11 +73,11 @@ const PIPELINE_LAYERS = [
     params: 245880,
     type: 'Probabilistic Classification Head',
     color: '#10B981',
-    description: 'Maps the 2048-dimensional canine feature representation into 120 distinct probability logits via softmax normalization, yielding the likelihood distribution across all Stanford Dog breeds.',
+    description: 'Maps the 2048-dimensional canine feature representation into 120 distinct probability logits via softmax normalization, yielding the likelihood distribution across all Stanford Dog breeds with 85% test/val accuracy.',
     details: [
       { key: 'Output Neurons', val: '120 classes' },
+      { key: 'Model Accuracy', val: '85.0% (Test & Val)' },
       { key: 'Weights Matrix', val: '2048 × 120 = 245,760' },
-      { key: 'Biases', val: '120 units' },
       { key: 'Activation Function', val: 'Softmax: exp(z_i) / Σ exp(z_j)' }
     ]
   }
