@@ -27,7 +27,7 @@ export default function DynamicNavbar({
           title="Click to keep expanded or hover to expand"
         >
           <div className="brand-icon">
-            <img src="/hina-logo.jpg" alt="HINA Logo" className="brand-logo-img" />
+            <img src={`${import.meta.env.BASE_URL}hina-logo.jpg`} alt="HINA Logo" className="brand-logo-img" />
           </div>
 
           <div className="hina-logo-text">
