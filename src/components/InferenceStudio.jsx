@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { SAMPLE_IMAGES, DOG_BREEDS } from '../data/breeds';
 import './InferenceStudio.css';
 
@@ -58,6 +58,7 @@ export default function InferenceStudio({
   onInferenceStart,
   onInferenceProgress,
   onInferenceComplete,
+  onResetInference,
   apiConnected,
 }) {
   const [selectedSample, setSelectedSample] = useState(SAMPLE_IMAGES[0]);
@@ -68,7 +69,7 @@ export default function InferenceStudio({
   const [copiedNotification, setCopiedNotification] = useState(false);
   const fileInputRef = useRef(null);
 
-  // Diagnostic states
+  // Diagnostic metrics
   const [diagnostics, setDiagnostics] = useState({
     resolution: SAMPLE_IMAGES[0].resolution,
     aspect: SAMPLE_IMAGES[0].aspect,
@@ -76,7 +77,7 @@ export default function InferenceStudio({
     sharpness: 94.8,
   });
 
-  // Current predictions initialized with initial preset
+  // Current predictions
   const [predictionData, setPredictionData] = useState(getInitialPrediction);
 
   const handleRunInference = useCallback(
@@ -84,7 +85,7 @@ export default function InferenceStudio({
       setIsAnalyzing(true);
       if (onInferenceStart) onInferenceStart(imageSrc);
 
-      // Simulate progress in Dynamic Island
+      // Progress animation in Dynamic Island
       let progress = 10;
       const progressInterval = setInterval(() => {
         progress += 15;
@@ -95,7 +96,6 @@ export default function InferenceStudio({
         }
       }, 70);
 
-      // If API is connected and file is available, attempt real backend inference
       let result = null;
       if (apiConnected && fileBlob) {
         try {
@@ -109,11 +109,10 @@ export default function InferenceStudio({
             result = await res.json();
           }
         } catch (err) {
-          console.warn('Backend fetch failed, using fallback engine:', err);
+          console.warn('Backend inference failed, using fallback:', err);
         }
       }
 
-      // High-fidelity fallback / sample inference
       if (!result) {
         await new Promise((res) => setTimeout(res, 450));
         clearInterval(progressInterval);
@@ -174,7 +173,6 @@ export default function InferenceStudio({
             ],
           };
         } else {
-          // Deterministic hash based on image source length
           const seed = imageSrc.length % 120;
           const breed = DOG_BREEDS[seed];
           const topProb = 93.4;
@@ -235,6 +233,73 @@ export default function InferenceStudio({
     [apiConnected, onInferenceStart, onInferenceProgress, onInferenceComplete]
   );
 
+  const processCustomFile = useCallback(
+    (file) => {
+      setSelectedSample(null);
+      const objectUrl = URL.createObjectURL(file);
+      setCurrentImageSrc(objectUrl);
+
+      const img = new Image();
+      img.onload = () => {
+        const width = img.naturalWidth || 1920;
+        const height = img.naturalHeight || 1080;
+        const aspect = `${(width / height).toFixed(2)}:1`;
+        const sizeMb = `${(file.size / (1024 * 1024)).toFixed(2)} MB`;
+        const sharpness = 93.4;
+
+        setDiagnostics({
+          resolution: `${width} x ${height}`,
+          aspect,
+          size: sizeMb,
+          sharpness,
+        });
+        handleRunInference(objectUrl, null, file);
+      };
+      img.src = objectUrl;
+    },
+    [handleRunInference]
+  );
+
+  // Clipboard paste support
+  useEffect(() => {
+    const handlePaste = (e) => {
+      const items = e.clipboardData && e.clipboardData.items;
+      if (items) {
+        for (let i = 0; i < items.length; i++) {
+          if (items[i].type.indexOf('image') !== -1) {
+            const file = items[i].getAsFile();
+            if (file) {
+              processCustomFile(file);
+              break;
+            }
+          }
+        }
+      }
+    };
+    window.addEventListener('paste', handlePaste);
+    return () => window.removeEventListener('paste', handlePaste);
+  }, [processCustomFile]);
+
+  // Handle Clear Input
+  const handleClearImage = (e) => {
+    if (e) e.stopPropagation();
+    setCurrentImageSrc(null);
+    setSelectedSample(null);
+    setPredictionData(null);
+    setDiagnostics({
+      resolution: '--',
+      aspect: '--',
+      size: '--',
+      sharpness: 0,
+    });
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+    if (onResetInference) {
+      onResetInference();
+    }
+  };
+
   const handleSelectSample = (sample) => {
     setSelectedSample(sample);
     setCurrentImageSrc(sample.url);
@@ -245,31 +310,6 @@ export default function InferenceStudio({
       sharpness: 94.2 + (sample.breedId % 5) * 0.8,
     });
     handleRunInference(sample.url, sample);
-  };
-
-  const processCustomFile = (file) => {
-    setSelectedSample(null);
-    const objectUrl = URL.createObjectURL(file);
-    setCurrentImageSrc(objectUrl);
-
-    const img = new Image();
-    img.onload = () => {
-      const width = img.naturalWidth || 1920;
-      const height = img.naturalHeight || 1080;
-      const aspect = `${(width / height).toFixed(2)}:1`;
-      const sizeMb = `${(file.size / (1024 * 1024)).toFixed(2)} MB`;
-      const sharpness = 92.5;
-
-      const newDiag = {
-        resolution: `${width} x ${height}`,
-        aspect,
-        size: sizeMb,
-        sharpness,
-      };
-      setDiagnostics(newDiag);
-      handleRunInference(objectUrl, null, file);
-    };
-    img.src = objectUrl;
   };
 
   const handleFileUpload = (e) => {
@@ -318,7 +358,7 @@ export default function InferenceStudio({
 
   return (
     <div className="studio-container">
-      {/* Hero Intro */}
+      {/* Hero Header */}
       <div className="hero-section">
         <div className="hero-pill-badge">
           <span className="status-indicator-dot"></span>
@@ -358,37 +398,12 @@ export default function InferenceStudio({
         </div>
       </div>
 
-      {/* 1-Click Sample Testing Strip */}
-      <div className="sample-presets-section">
-        <div className="sample-presets-header">
-          <span className="section-label">Quick Test Presets (1-Click Evaluation)</span>
-          <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
-            Click any breed to test immediately
-          </span>
-        </div>
-
-        <div className="sample-cards-grid">
-          {SAMPLE_IMAGES.map((sample) => (
-            <button
-              key={sample.id}
-              type="button"
-              className={`sample-dog-card ${selectedSample && selectedSample.id === sample.id ? 'is-selected' : ''}`}
-              onClick={() => handleSelectSample(sample)}
-            >
-              <img src={sample.url} alt={sample.name} loading="lazy" />
-              <div className="sample-dog-name">{sample.name}</div>
-              <div className="sample-dog-group">{sample.group}</div>
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Workspace: Dropzone & Results */}
+      {/* Main Workspace: Left Dropzone & Right Analytics */}
       <div className="studio-grid">
-        {/* Left: Dropzone & Image Diagnostics */}
+        {/* Left: Interactive Dropzone & Diagnostics */}
         <div className="glass-panel dropzone-panel">
-          <div className="results-header">
-            <div className="results-title-group">
+          <div className="panel-header-row">
+            <div className="panel-title-group">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
                 <circle cx="8.5" cy="8.5" r="1.5" />
@@ -397,21 +412,38 @@ export default function InferenceStudio({
               <span className="section-label">HighRes Input Source</span>
             </div>
 
-            <button
-              type="button"
-              className={`action-btn ${showHeatmap ? 'active' : ''}`}
-              onClick={() => setShowHeatmap(!showHeatmap)}
-              title="Toggle Neural Attention Heatmap"
-            >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <circle cx="12" cy="12" r="10" />
-                <path d="M12 2a7 7 0 0 0 7 7c0 2.38-1.19 4.47-3 5.74V17a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7z" />
-              </svg>
-              {showHeatmap ? 'Hide CAM' : 'Class Activation Map'}
-            </button>
+            <div className="panel-actions-group">
+              {currentImageSrc && (
+                <button
+                  type="button"
+                  className="clear-image-btn"
+                  onClick={handleClearImage}
+                  title="Clear current image"
+                >
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                  </svg>
+                  Clear Image
+                </button>
+              )}
+
+              <button
+                type="button"
+                className={`action-btn ${showHeatmap ? 'active' : ''}`}
+                onClick={() => setShowHeatmap(!showHeatmap)}
+                title="Toggle Neural Attention Heatmap"
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <circle cx="12" cy="12" r="10" />
+                  <path d="M12 2a7 7 0 0 0 7 7c0 2.38-1.19 4.47-3 5.74V17a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7z" />
+                </svg>
+                {showHeatmap ? 'Hide CAM' : 'Heatmap'}
+              </button>
+            </div>
           </div>
 
-          {/* Interactive Image Preview with Heatmap & Crop Overlay */}
+          {/* Prominent Drag & Drop Area */}
           <div
             className={`dropzone-area ${isDragOver ? 'drag-over' : ''}`}
             onDragOver={handleDragOver}
@@ -419,6 +451,17 @@ export default function InferenceStudio({
             onDrop={handleDrop}
             onClick={() => fileInputRef.current && fileInputRef.current.click()}
           >
+            {isDragOver && (
+              <div className="drag-overlay-alert">
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                  <polyline points="17 8 12 3 7 8" />
+                  <line x1="12" y1="3" x2="12" y2="15" />
+                </svg>
+                <span>Drop image file here to classify</span>
+              </div>
+            )}
+
             {currentImageSrc ? (
               <div className="preview-container">
                 <img src={currentImageSrc} alt="Analyzing dog breed" />
@@ -430,18 +473,18 @@ export default function InferenceStudio({
             ) : (
               <>
                 <div className="dropzone-icon-circle">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
                     <polyline points="17 8 12 3 7 8" />
                     <line x1="12" y1="3" x2="12" y2="15" />
                   </svg>
                 </div>
-                <div className="dropzone-title">Upload HighRes Dog Photo</div>
+                <div className="dropzone-title">Drag & Drop Image Here</div>
                 <div className="dropzone-hint">
-                  Drag & drop high-resolution JPG, PNG, WEBP files or click to browse
+                  Drop high-res dog photo (JPG, PNG, WEBP), paste from clipboard (Cmd+V), or click to browse
                 </div>
                 <button type="button" className="dropzone-btn">
-                  Select File
+                  Choose Image File
                 </button>
               </>
             )}
@@ -455,7 +498,7 @@ export default function InferenceStudio({
             />
           </div>
 
-          {/* HighRes Diagnostic Metrics */}
+          {/* Image Diagnostics Bar */}
           <div className="diagnostics-bar font-mono">
             <div className="diag-item">
               <span className="diag-label">Resolution</span>
@@ -472,7 +515,7 @@ export default function InferenceStudio({
             <div className="diag-item">
               <span className="diag-label">Sharpness</span>
               <span className="diag-value" style={{ color: 'var(--emerald-accent)' }}>
-                {diagnostics.sharpness}%
+                {diagnostics.sharpness > 0 ? `${diagnostics.sharpness}%` : '--'}
               </span>
             </div>
           </div>
@@ -490,7 +533,7 @@ export default function InferenceStudio({
               <span className="section-label">Prediction Analytics</span>
             </div>
 
-            <div style={{ fontSize: '0.76rem', color: 'var(--text-muted)' }} className="font-mono">
+            <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }} className="font-mono">
               Latency: {predictionData ? `${predictionData.latency_ms}ms` : '--'}
             </div>
           </div>
@@ -579,25 +622,61 @@ export default function InferenceStudio({
                     <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
                     <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
                   </svg>
-                  {copiedNotification ? 'Copied JSON!' : 'Copy Inference JSON'}
+                  {copiedNotification ? 'Copied JSON!' : 'Copy Report JSON'}
                 </button>
 
                 <button
                   type="button"
                   className="dropzone-btn"
-                  style={{ fontSize: '0.8rem', padding: '6px 14px' }}
+                  style={{ fontSize: '0.82rem', padding: '7px 16px' }}
                   disabled={isAnalyzing}
                   onClick={() => fileInputRef.current && fileInputRef.current.click()}
                 >
-                  {isAnalyzing ? 'Analyzing...' : 'Upload New Image'}
+                  {isAnalyzing ? 'Analyzing...' : 'Upload New Photo'}
                 </button>
               </div>
             </>
           ) : (
-            <div style={{ textAlign: 'center', padding: '40px 0', color: 'var(--text-muted)' }}>
-              No inference data. Select a preset or upload an image.
+            <div style={{ textAlign: 'center', padding: '60px 20px', color: 'var(--text-muted)' }}>
+              <div style={{ marginBottom: '12px', fontSize: '1.8rem' }}>🐕</div>
+              <div style={{ fontWeight: 600, color: 'var(--text-primary)', marginBottom: '6px' }}>
+                No Image Selected
+              </div>
+              <p style={{ fontSize: '0.85rem' }}>
+                Drag & drop a dog photo above or pick one of the quick test presets below to start neural classification.
+              </p>
             </div>
           )}
+        </div>
+      </div>
+
+      {/* Quick Test Presets (Shifted to Bottom as requested) */}
+      <div className="sample-presets-section">
+        <div className="sample-presets-header">
+          <div>
+            <div className="section-label">Quick Test Presets (1-Click Evaluation)</div>
+            <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: '2px' }}>
+              Select any high-res canine sample to evaluate immediately
+            </div>
+          </div>
+          <span style={{ fontSize: '0.72rem', color: 'var(--accent-primary)', fontWeight: 600 }}>
+            8 Standard Presets Available
+          </span>
+        </div>
+
+        <div className="sample-cards-grid">
+          {SAMPLE_IMAGES.map((sample) => (
+            <button
+              key={sample.id}
+              type="button"
+              className={`sample-dog-card ${selectedSample && selectedSample.id === sample.id ? 'is-selected' : ''}`}
+              onClick={() => handleSelectSample(sample)}
+            >
+              <img src={sample.url} alt={sample.name} loading="lazy" />
+              <div className="sample-dog-name">{sample.name}</div>
+              <div className="sample-dog-group">{sample.group}</div>
+            </button>
+          ))}
         </div>
       </div>
     </div>

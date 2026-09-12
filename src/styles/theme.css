@@ -5,15 +5,16 @@
 
 :root {
   /* Color Palette - Dark Mode (Default) */
-  --bg-base: #080B11;
-  --bg-surface: #0E131F;
-  --bg-card: rgba(18, 24, 38, 0.72);
-  --bg-card-hover: rgba(26, 35, 54, 0.85);
-  --bg-card-elevated: rgba(24, 32, 50, 0.9);
+  --bg-base: #070A10;
+  --bg-surface: #0D121D;
+  --bg-bubble: rgba(14, 19, 31, 0.78);
+  --bg-card: rgba(19, 26, 42, 0.65);
+  --bg-card-hover: rgba(27, 37, 58, 0.85);
+  --bg-card-elevated: rgba(22, 30, 48, 0.95);
   
-  --border-subtle: rgba(255, 255, 255, 0.08);
-  --border-active: rgba(99, 102, 241, 0.4);
-  --border-highlight: rgba(56, 189, 248, 0.3);
+  --border-subtle: rgba(255, 255, 255, 0.09);
+  --border-active: rgba(99, 102, 241, 0.45);
+  --border-highlight: rgba(56, 189, 248, 0.35);
 
   --text-primary: #F8FAFC;
   --text-secondary: #94A3B8;
@@ -24,38 +25,43 @@
   --accent-primary-hover: #4F46E5;
   --accent-secondary: #38BDF8;
   --accent-gradient: linear-gradient(135deg, #6366F1 0%, #38BDF8 50%, #A855F7 100%);
-  --accent-glow: 0 0 25px rgba(99, 102, 241, 0.35);
+  --accent-glow: 0 0 30px rgba(99, 102, 241, 0.4);
   --emerald-accent: #10B981;
   --amber-accent: #F59E0B;
   --rose-accent: #F43F5E;
 
   /* Dynamic Island */
-  --island-bg: rgba(15, 20, 32, 0.88);
-  --island-border: rgba(255, 255, 255, 0.14);
-  --island-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.6), 0 0 1px 1px rgba(255, 255, 255, 0.1) inset;
-  --island-glow: 0 0 30px -5px rgba(99, 102, 241, 0.25);
+  --island-bg: rgba(13, 17, 27, 0.9);
+  --island-border: rgba(255, 255, 255, 0.15);
+  --island-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.65), 0 0 1px 1px rgba(255, 255, 255, 0.12) inset;
+  --island-glow: 0 0 35px -5px rgba(99, 102, 241, 0.3);
+
+  /* Bubble Pod Depth Effect */
+  --bubble-bg: rgba(13, 18, 29, 0.72);
+  --bubble-border: rgba(255, 255, 255, 0.1);
+  --bubble-shadow: 0 30px 80px -20px rgba(0, 0, 0, 0.75),
+                   0 0 0 1px rgba(255, 255, 255, 0.08) inset,
+                   0 1px 0 rgba(255, 255, 255, 0.2) inset;
+  --bubble-ambient: radial-gradient(100% 100% at 50% 0%, rgba(99, 102, 241, 0.12) 0%, transparent 60%);
 
   /* Shadows */
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 12px 28px -6px rgba(0, 0, 0, 0.45);
-  --shadow-lg: 0 24px 48px -12px rgba(0, 0, 0, 0.6);
-  --shadow-glow: 0 0 40px rgba(99, 102, 241, 0.18);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 14px 32px -6px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 28px 56px -12px rgba(0, 0, 0, 0.65);
 
   /* Glassmorphism */
-  --glass-blur: blur(20px);
-  --glass-specular: radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.08), transparent 70%);
-
-  /* Animation timing */
+  --glass-blur: blur(24px);
   --spring-smooth: cubic-bezier(0.16, 1, 0.3, 1);
   --spring-snappy: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 /* Light Theme overrides */
 [data-theme="light"] {
-  --bg-base: #F8FAFC;
-  --bg-surface: #EEF2F7;
-  --bg-card: rgba(255, 255, 255, 0.88);
-  --bg-card-hover: rgba(255, 255, 255, 0.98);
+  --bg-base: #F1F5F9;
+  --bg-surface: #E2E8F0;
+  --bg-bubble: rgba(255, 255, 255, 0.9);
+  --bg-card: rgba(255, 255, 255, 0.82);
+  --bg-card-hover: rgba(255, 255, 255, 0.96);
   --bg-card-elevated: #FFFFFF;
 
   --border-subtle: rgba(15, 23, 42, 0.08);
@@ -71,34 +77,39 @@
   --accent-primary-hover: #4338CA;
   --accent-secondary: #0284C7;
   --accent-gradient: linear-gradient(135deg, #4F46E5 0%, #0284C7 50%, #9333EA 100%);
-  --accent-glow: 0 0 20px rgba(79, 70, 229, 0.2);
+  --accent-glow: 0 0 25px rgba(79, 70, 229, 0.25);
   --emerald-accent: #059669;
   --amber-accent: #D97706;
   --rose-accent: #E11D48;
 
   /* Dynamic Island in light mode */
-  --island-bg: rgba(255, 255, 255, 0.92);
-  --island-border: rgba(15, 23, 42, 0.1);
-  --island-shadow: 0 16px 36px -8px rgba(15, 23, 42, 0.12), 0 0 1px 1px rgba(255, 255, 255, 0.8) inset;
-  --island-glow: 0 0 25px rgba(79, 70, 229, 0.12);
+  --island-bg: rgba(255, 255, 255, 0.94);
+  --island-border: rgba(15, 23, 42, 0.12);
+  --island-shadow: 0 16px 36px -8px rgba(15, 23, 42, 0.12), 0 0 1px 1px rgba(255, 255, 255, 0.9) inset;
+  --island-glow: 0 0 25px rgba(79, 70, 229, 0.15);
+
+  /* Bubble Pod Depth Effect in Light Mode */
+  --bubble-bg: rgba(255, 255, 255, 0.88);
+  --bubble-border: rgba(15, 23, 42, 0.08);
+  --bubble-shadow: 0 25px 65px -15px rgba(15, 23, 42, 0.1),
+                   0 0 0 1px rgba(255, 255, 255, 0.8) inset,
+                   0 1px 0 rgba(255, 255, 255, 1) inset;
+  --bubble-ambient: radial-gradient(100% 100% at 50% 0%, rgba(79, 70, 229, 0.06) 0%, transparent 60%);
 
   --shadow-sm: 0 2px 6px rgba(15, 23, 42, 0.04);
   --shadow-md: 0 10px 25px -4px rgba(15, 23, 42, 0.08);
   --shadow-lg: 0 20px 45px -10px rgba(15, 23, 42, 0.12);
-  --shadow-glow: 0 0 35px rgba(79, 70, 229, 0.1);
 }
 
-/* Base resets & typography */
+/* Base styling */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   background-color: var(--bg-base);
   color: var(--text-primary);
   min-height: 100vh;
@@ -108,10 +119,10 @@ body {
 }
 
 code, pre, .font-mono {
-  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-family: 'JetBrains Mono', ui-monospace, Menlo, Monaco, Consolas, monospace;
 }
 
-/* Ambient canvas background glow */
+/* Ambient canvas background glow bubbles */
 .canvas-bg {
   position: fixed;
   inset: 0;
@@ -122,26 +133,38 @@ code, pre, .font-mono {
 
 .canvas-glow-1 {
   position: absolute;
-  top: -15%;
-  left: 20%;
-  width: 60vw;
+  top: -10%;
+  left: 25%;
+  width: 55vw;
   height: 50vh;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
-  filter: blur(80px);
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.18) 0%, transparent 70%);
+  filter: blur(90px);
   animation: floatGlow 14s ease-in-out infinite alternate;
 }
 
 .canvas-glow-2 {
   position: absolute;
-  top: 40%;
-  right: -10%;
+  top: 45%;
+  right: -5%;
   width: 50vw;
   height: 50vh;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(56, 189, 248, 0.12) 0%, transparent 70%);
-  filter: blur(90px);
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.15) 0%, transparent 70%);
+  filter: blur(100px);
   animation: floatGlow 18s ease-in-out infinite alternate-reverse;
+}
+
+.canvas-glow-3 {
+  position: absolute;
+  bottom: -15%;
+  left: 10%;
+  width: 45vw;
+  height: 45vh;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.14) 0%, transparent 70%);
+  filter: blur(90px);
+  animation: floatGlow 16s ease-in-out infinite alternate;
 }
 
 [data-theme="light"] .canvas-glow-1 {
@@ -150,19 +173,22 @@ code, pre, .font-mono {
 [data-theme="light"] .canvas-glow-2 {
   background: radial-gradient(circle, rgba(56, 189, 248, 0.07) 0%, transparent 70%);
 }
+[data-theme="light"] .canvas-glow-3 {
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.06) 0%, transparent 70%);
+}
 
 @keyframes floatGlow {
   0% { transform: translate(0, 0) scale(1); }
-  100% { transform: translate(-40px, 30px) scale(1.1); }
+  100% { transform: translate(-35px, 25px) scale(1.08); }
 }
 
-/* Glass card styling */
+/* Glass panel styling */
 .glass-panel {
   background: var(--bg-card);
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
   border: 1px solid var(--border-subtle);
-  border-radius: 16px;
+  border-radius: 20px;
   box-shadow: var(--shadow-md);
   transition: transform 0.3s var(--spring-smooth), border-color 0.3s ease, box-shadow 0.3s ease;
 }
@@ -175,23 +201,4 @@ code, pre, .font-mono {
   background: var(--accent-gradient);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-}
-
-/* Custom scrollbars */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--border-subtle);
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--text-muted);
 }

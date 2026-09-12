@@ -18,16 +18,16 @@ export default function App() {
   // Active view tab: 'studio' | 'architecture' | 'codex' | 'benchmarks'
   const [activeTab, setActiveTab] = useState('studio');
 
-  // Dynamic Island states
-  const [islandState, setIslandState] = useState('idle'); // 'idle' | 'processing' | 'result'
+  // Dynamic Island states: 'idle' | 'processing' | 'result'
+  const [islandState, setIslandState] = useState('idle');
   const [processingProgress, setProcessingProgress] = useState(0);
   const [processingThumb, setProcessingThumb] = useState(null);
   const [topPrediction, setTopPrediction] = useState(null);
 
-  // Backend connection status
+  // Backend connection health
   const [apiConnected, setApiConnected] = useState(false);
 
-  // Apply theme to html root
+  // Apply theme attribute to html root
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
     localStorage.setItem('hina-theme', theme);
@@ -37,7 +37,7 @@ export default function App() {
     setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
   };
 
-  // Check backend health
+  // Check backend health periodically
   useEffect(() => {
     const checkApi = async () => {
       try {
@@ -56,7 +56,7 @@ export default function App() {
     return () => clearInterval(timer);
   }, []);
 
-  // Inference callbacks
+  // Inference life-cycle callbacks
   const handleInferenceStart = (thumbUrl) => {
     setProcessingThumb(thumbUrl);
     setProcessingProgress(15);
@@ -84,13 +84,14 @@ export default function App() {
 
   return (
     <div className="app-shell">
-      {/* Dynamic ambient canvas background blur */}
+      {/* Ambient background glow layers */}
       <div className="canvas-bg">
         <div className="canvas-glow-1"></div>
         <div className="canvas-glow-2"></div>
+        <div className="canvas-glow-3"></div>
       </div>
 
-      {/* Apple Dynamic Island Inspired Sticky Navbar */}
+      {/* Enhanced Apple-Inspired Dynamic Island Sticky Navbar */}
       <DynamicNavbar
         activeTab={activeTab}
         setActiveTab={setActiveTab}
@@ -104,42 +105,114 @@ export default function App() {
         apiConnected={apiConnected}
       />
 
-      {/* Main Content Workspace */}
-      <main className="main-content">
-        {activeTab === 'studio' && (
-          <InferenceStudio
-            onInferenceStart={handleInferenceStart}
-            onInferenceProgress={handleInferenceProgress}
-            onInferenceComplete={handleInferenceComplete}
-            apiConnected={apiConnected}
-            lastInferenceResult={topPrediction}
-          />
-        )}
+      {/* 
+          Main Bubble Pod Container
+          - Rounded box coming forward from the depth with bubble lighting effect
+          - Replaces the old straight vertical side lines
+      */}
+      <div className="bubble-pod">
+        <main className="main-content">
+          {activeTab === 'studio' && (
+            <InferenceStudio
+              onInferenceStart={handleInferenceStart}
+              onInferenceProgress={handleInferenceProgress}
+              onInferenceComplete={handleInferenceComplete}
+              onResetInference={handleResetInference}
+              apiConnected={apiConnected}
+            />
+          )}
 
-        {activeTab === 'architecture' && <ArchitectureExplorer />}
+          {activeTab === 'architecture' && <ArchitectureExplorer />}
 
-        {activeTab === 'codex' && <BreedCodex />}
+          {activeTab === 'codex' && <BreedCodex />}
 
-        {activeTab === 'benchmarks' && <Benchmarks />}
-      </main>
+          {activeTab === 'benchmarks' && <Benchmarks />}
+        </main>
+      </div>
 
-      {/* Sleek App Footer */}
+      {/* Enhanced Professional Multi-Column Footer */}
       <footer className="app-footer">
-        <div className="footer-container">
-          <div className="footer-left">
-            <div className="footer-brand">
-              <span className="gradient-text" style={{ fontWeight: 800 }}>HINA</span>
-              <span style={{ color: 'var(--text-muted)' }}> — HighRes Image Network Architecture</span>
+        <div className="footer-inner">
+          <div className="footer-columns-grid">
+            {/* Column 1: Brand Info */}
+            <div className="footer-col-brand">
+              <div className="footer-brand-title">
+                <span className="gradient-text">HINA</span>
+                <span className="footer-meta-pill">v1.4 Neural Engine</span>
+              </div>
+              <p className="footer-brand-tagline">
+                <strong>HighRes Image Network Architecture</strong> — Deep canine vision and fine-grained breed classification powered by ResNet-50 residual feature extraction.
+              </p>
+              <div className="tech-chips-row">
+                <span className="tech-chip font-mono">React 19</span>
+                <span className="tech-chip font-mono">Keras 3</span>
+                <span className="tech-chip font-mono">ResNet-50</span>
+                <span className="tech-chip font-mono">FastAPI</span>
+                <span className="tech-chip font-mono">Vite</span>
+              </div>
             </div>
-            <div className="footer-note">
-              Deep canine vision platform powered by ResNet-50 feature extraction & Stanford 120 Dogs dataset.
+
+            {/* Column 2: Navigation */}
+            <div>
+              <div className="footer-col-title">Navigation</div>
+              <ul className="footer-links-list">
+                <li onClick={() => setActiveTab('studio')}>
+                  <span>→</span> Inference Studio
+                </li>
+                <li onClick={() => setActiveTab('architecture')}>
+                  <span>→</span> Neural Architecture
+                </li>
+                <li onClick={() => setActiveTab('codex')}>
+                  <span>→</span> 120 Breeds Library
+                </li>
+                <li onClick={() => setActiveTab('benchmarks')}>
+                  <span>→</span> Performance Metrics
+                </li>
+              </ul>
+            </div>
+
+            {/* Column 3: Architecture Specs */}
+            <div>
+              <div className="footer-col-title">Architecture</div>
+              <ul className="footer-links-list">
+                <li>Backbone: ResNet-50</li>
+                <li>Params: 23,587,712</li>
+                <li>Input: 224 × 224 × 3 RGB</li>
+                <li>Classes: 120 Stanford Breeds</li>
+                <li>Pooling: GlobalAveragePooling2D</li>
+              </ul>
+            </div>
+
+            {/* Column 4: System Telemetry */}
+            <div className="footer-system-status">
+              <div className="footer-col-title">System Telemetry</div>
+              <div className="footer-status-card">
+                <div className="footer-status-row">
+                  <span style={{ color: 'var(--text-muted)' }}>Backend Engine:</span>
+                  <span className="font-mono" style={{ color: apiConnected ? 'var(--emerald-accent)' : 'var(--amber-accent)', fontWeight: 600 }}>
+                    {apiConnected ? 'FastAPI Online' : 'Standalone Fallback'}
+                  </span>
+                </div>
+                <div className="footer-status-row">
+                  <span style={{ color: 'var(--text-muted)' }}>Mean Latency:</span>
+                  <span className="font-mono" style={{ color: 'var(--accent-primary)', fontWeight: 600 }}>
+                    36.6 ms
+                  </span>
+                </div>
+                <div className="footer-status-row">
+                  <span style={{ color: 'var(--text-muted)' }}>Precision:</span>
+                  <span className="font-mono" style={{ color: 'var(--text-primary)' }}>
+                    Float32 Tensors
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
 
-          <div className="footer-right">
-            <div className="footer-pill font-mono">ResNet-50 v1.4</div>
-            <div className="footer-pill font-mono">224×224 RGB</div>
-            <div className="footer-pill font-mono">120 Classes</div>
+          {/* Bottom Bar */}
+          <div className="footer-bottom-bar font-mono">
+            <div>© {new Date().getFullYear()} HINA (HighRes Image Network Architecture). All rights reserved.</div>
+            <div>Trained on Stanford Dogs Dataset & ImageNet-1k</div>
           </div>
         </div>
       </footer>

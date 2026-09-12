@@ -5,7 +5,7 @@
 .studio-container {
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 36px;
   width: 100%;
 }
 
@@ -14,7 +14,7 @@
    -------------------------------------------------------------------------- */
 .hero-section {
   text-align: center;
-  padding: 24px 16px 12px;
+  padding: 12px 16px 8px;
   max-width: 860px;
   margin: 0 auto;
 }
@@ -30,7 +30,7 @@
   background: rgba(99, 102, 241, 0.12);
   color: var(--accent-primary);
   border: 1px solid rgba(99, 102, 241, 0.25);
-  margin-bottom: 20px;
+  margin-bottom: 18px;
   box-shadow: 0 2px 10px rgba(99, 102, 241, 0.1);
 }
 
@@ -73,93 +73,16 @@
 }
 
 /* --------------------------------------------------------------------------
-   Sample Presets Strip (Instant 1-Click Testing)
-   -------------------------------------------------------------------------- */
-.sample-presets-section {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.sample-presets-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.section-label {
-  font-size: 0.85rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--text-muted);
-}
-
-.sample-cards-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-  gap: 12px;
-}
-
-.sample-dog-card {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  padding: 8px;
-  border-radius: 12px;
-  background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
-  cursor: pointer;
-  overflow: hidden;
-  transition: all 0.3s var(--spring-smooth);
-  text-align: left;
-}
-
-.sample-dog-card:hover {
-  transform: translateY(-3px);
-  border-color: var(--accent-primary);
-  box-shadow: var(--shadow-md), var(--accent-glow);
-}
-
-.sample-dog-card.is-selected {
-  border-color: var(--accent-primary);
-  background: rgba(99, 102, 241, 0.1);
-  box-shadow: 0 0 16px rgba(99, 102, 241, 0.35);
-}
-
-.sample-dog-card img {
-  width: 100%;
-  height: 80px;
-  object-fit: cover;
-  border-radius: 8px;
-  margin-bottom: 8px;
-}
-
-.sample-dog-name {
-  font-size: 0.78rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.sample-dog-group {
-  font-size: 0.68rem;
-  color: var(--text-muted);
-}
-
-/* --------------------------------------------------------------------------
    Inference Workspace Grid (Dropzone + Diagnostics / Results)
    -------------------------------------------------------------------------- */
 .studio-grid {
   display: grid;
   grid-template-columns: 1fr 1.15fr;
-  gap: 24px;
+  gap: 28px;
   align-items: start;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 940px) {
   .studio-grid {
     grid-template-columns: 1fr;
   }
@@ -167,39 +90,113 @@
 
 /* Upload Dropzone Card */
 .dropzone-panel {
-  padding: 24px;
+  padding: 26px;
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
+.panel-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.panel-title-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.panel-actions-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Clear Image Button */
+.clear-image-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: rgba(244, 63, 94, 0.1);
+  color: var(--rose-accent);
+  border: 1px solid rgba(244, 63, 94, 0.25);
+}
+
+.clear-image-btn:hover {
+  background: var(--rose-accent);
+  color: #FFFFFF;
+  box-shadow: 0 4px 12px rgba(244, 63, 94, 0.35);
+  transform: translateY(-1px);
+}
+
+/* Prominent Interactive Drag & Drop Area */
 .dropzone-area {
   border: 2px dashed var(--border-subtle);
-  border-radius: 16px;
+  border-radius: 20px;
   padding: 36px 20px;
   text-align: center;
   cursor: pointer;
-  transition: all 0.3s var(--spring-smooth);
-  background: rgba(255, 255, 255, 0.015);
+  transition: all 0.35s var(--spring-smooth);
+  background: rgba(255, 255, 255, 0.018);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  min-height: 260px;
+  position: relative;
+  overflow: hidden;
+}
+
+.dropzone-area:hover {
+  border-color: var(--accent-primary);
+  background: rgba(99, 102, 241, 0.04);
+}
+
+.dropzone-area.drag-over {
+  border-color: var(--accent-primary);
+  background: rgba(99, 102, 241, 0.12);
+  box-shadow: 0 0 35px rgba(99, 102, 241, 0.35);
+  transform: scale(1.01);
+}
+
+/* Drag overlay message when dragging over existing preview */
+.drag-overlay-alert {
+  position: absolute;
+  inset: 0;
+  background: rgba(13, 17, 27, 0.85);
+  backdrop-filter: blur(8px);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 12px;
-  min-height: 240px;
+  color: #FFFFFF;
+  font-weight: 700;
+  font-size: 1.1rem;
+  z-index: 10;
+  animation: fadeIn 0.2s ease-out;
 }
 
-.dropzone-area.drag-over {
-  border-color: var(--accent-primary);
-  background: rgba(99, 102, 241, 0.08);
-  box-shadow: var(--accent-glow);
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
 }
 
 .dropzone-icon-circle {
-  width: 52px;
-  height: 52px;
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
-  background: rgba(99, 102, 241, 0.15);
+  background: rgba(99, 102, 241, 0.16);
   color: var(--accent-primary);
   display: flex;
   align-items: center;
@@ -208,19 +205,20 @@
 }
 
 .dropzone-area:hover .dropzone-icon-circle {
-  transform: scale(1.1);
+  transform: scale(1.12);
 }
 
 .dropzone-title {
-  font-size: 1.05rem;
+  font-size: 1.1rem;
   font-weight: 700;
   color: var(--text-primary);
 }
 
 .dropzone-hint {
-  font-size: 0.82rem;
+  font-size: 0.84rem;
   color: var(--text-muted);
-  max-width: 280px;
+  max-width: 320px;
+  line-height: 1.5;
 }
 
 .dropzone-btn {
@@ -229,37 +227,37 @@
   border: none;
   font-family: inherit;
   font-weight: 600;
-  font-size: 0.85rem;
-  padding: 8px 18px;
+  font-size: 0.86rem;
+  padding: 9px 20px;
   border-radius: 9999px;
   cursor: pointer;
-  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
+  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.4);
   transition: all 0.25s ease;
 }
 
 .dropzone-btn:hover {
   transform: translateY(-1px);
-  box-shadow: 0 6px 18px rgba(99, 102, 241, 0.5);
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.55);
 }
 
 /* Image Preview in Dropzone */
 .preview-container {
   position: relative;
   width: 100%;
-  border-radius: 14px;
+  border-radius: 16px;
   overflow: hidden;
-  max-height: 360px;
+  max-height: 380px;
   box-shadow: var(--shadow-md);
   border: 1px solid var(--border-subtle);
+  background: #000000;
 }
 
 .preview-container img {
   width: 100%;
   height: auto;
-  max-height: 360px;
+  max-height: 380px;
   object-fit: contain;
   display: block;
-  background: #000000;
 }
 
 /* Neural Activation Heatmap Overlay */
@@ -267,7 +265,7 @@
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: radial-gradient(circle at 50% 40%, rgba(239, 68, 68, 0.6) 0%, rgba(245, 158, 11, 0.5) 25%, rgba(59, 130, 246, 0.3) 55%, transparent 75%);
+  background: radial-gradient(circle at 50% 40%, rgba(239, 68, 68, 0.65) 0%, rgba(245, 158, 11, 0.55) 25%, rgba(59, 130, 246, 0.35) 55%, transparent 75%);
   mix-blend-mode: screen;
   opacity: 0.85;
   animation: heatPulse 3s ease-in-out infinite alternate;
@@ -284,10 +282,10 @@
   left: 20%;
   width: 60%;
   height: 70%;
-  border: 2px dashed rgba(56, 189, 248, 0.8);
+  border: 2px dashed rgba(56, 189, 248, 0.85);
   border-radius: 8px;
   pointer-events: none;
-  box-shadow: 0 0 15px rgba(56, 189, 248, 0.3);
+  box-shadow: 0 0 15px rgba(56, 189, 248, 0.35);
 }
 
 .crop-badge {
@@ -297,7 +295,7 @@
   font-size: 0.68rem;
   font-weight: 700;
   padding: 3px 8px;
-  background: rgba(0, 0, 0, 0.75);
+  background: rgba(0, 0, 0, 0.8);
   color: #38BDF8;
   border-radius: 4px;
   backdrop-filter: blur(4px);
@@ -307,15 +305,15 @@
 .diagnostics-bar {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
-  padding: 12px;
-  background: rgba(0, 0, 0, 0.15);
-  border-radius: 12px;
+  gap: 10px;
+  padding: 14px;
+  background: rgba(0, 0, 0, 0.18);
+  border-radius: 14px;
   border: 1px solid var(--border-subtle);
 }
 
 [data-theme="light"] .diagnostics-bar {
-  background: rgba(241, 245, 249, 0.8);
+  background: rgba(241, 245, 249, 0.85);
 }
 
 .diag-item {
@@ -332,7 +330,7 @@
 }
 
 .diag-value {
-  font-size: 0.85rem;
+  font-size: 0.88rem;
   font-weight: 700;
   color: var(--text-primary);
 }
@@ -360,13 +358,13 @@
 }
 
 .primary-match-card {
-  padding: 20px;
+  padding: 22px;
   background: rgba(99, 102, 241, 0.08);
   border: 1px solid rgba(99, 102, 241, 0.3);
-  border-radius: 16px;
+  border-radius: 18px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 16px;
 }
 
 .primary-match-top {
@@ -377,14 +375,14 @@
 }
 
 .primary-breed-name {
-  font-size: 1.65rem;
+  font-size: 1.75rem;
   font-weight: 800;
   color: var(--text-primary);
   line-height: 1.2;
 }
 
 .primary-score-pill {
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   font-weight: 800;
   color: var(--emerald-accent);
   background: rgba(16, 185, 129, 0.15);
@@ -397,11 +395,11 @@
 .meta-tags-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: 8px;
 }
 
 .meta-chip {
-  font-size: 0.74rem;
+  font-size: 0.76rem;
   font-weight: 600;
   padding: 4px 10px;
   border-radius: 6px;
@@ -417,9 +415,9 @@
 }
 
 .breed-desc-text {
-  font-size: 0.9rem;
+  font-size: 0.92rem;
   color: var(--text-secondary);
-  line-height: 1.55;
+  line-height: 1.6;
 }
 
 /* Distribution Bar Chart */
@@ -432,14 +430,14 @@
 .dist-bar-item {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 6px;
 }
 
 .dist-bar-label {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 0.82rem;
+  font-size: 0.84rem;
   font-weight: 600;
   color: var(--text-primary);
 }
@@ -494,4 +492,87 @@
   background: rgba(99, 102, 241, 0.2);
   border-color: var(--accent-primary);
   color: var(--accent-primary);
+}
+
+/* --------------------------------------------------------------------------
+   Sample Presets Strip (Shifted to Bottom)
+   -------------------------------------------------------------------------- */
+.sample-presets-section {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 24px;
+  border-radius: 24px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+}
+
+.sample-presets-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.section-label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+.sample-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(135px, 1fr));
+  gap: 12px;
+}
+
+.sample-dog-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  border-radius: 14px;
+  background: var(--bg-card-elevated);
+  border: 1px solid var(--border-subtle);
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.3s var(--spring-smooth);
+  text-align: left;
+}
+
+.sample-dog-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent-primary);
+  box-shadow: var(--shadow-md), var(--accent-glow);
+}
+
+.sample-dog-card.is-selected {
+  border-color: var(--accent-primary);
+  background: rgba(99, 102, 241, 0.12);
+  box-shadow: 0 0 16px rgba(99, 102, 241, 0.35);
+}
+
+.sample-dog-card img {
+  width: 100%;
+  height: 85px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 8px;
+}
+
+.sample-dog-name {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sample-dog-group {
+  font-size: 0.7rem;
+  color: var(--text-muted);
 }
